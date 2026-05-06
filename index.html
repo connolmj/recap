@@ -389,6 +389,132 @@
     color: var(--text-secondary);
     font-weight: 500;
   }
+
+  /* Message bubbles (first message + first I love you slides) */
+  .msg-meta {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .msg-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .msg-bubble {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 10px 14px;
+    max-width: 80%;
+    position: relative;
+  }
+  /* Mike — right side, sage green tint */
+  .msg-bubble.msg-from-me {
+    align-self: flex-end;
+    background: #cfdcb6;
+    border-bottom-right-radius: 4px;
+  }
+  /* Deanna — left side, cream */
+  .msg-bubble.msg-from-other {
+    align-self: flex-start;
+    background: #ece4cb;
+    border-bottom-left-radius: 4px;
+  }
+  /* Highlighted love message wins on background but keeps its side */
+  .msg-bubble.msg-highlight {
+    background: rgba(var(--heat-rgb), 0.18);
+    border: 1px solid rgba(var(--heat-rgb), 0.5);
+    max-width: 88%;
+  }
+  .msg-sender {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    margin-bottom: 3px;
+    letter-spacing: 0.04em;
+  }
+  .msg-bubble.msg-from-me .msg-sender { text-align: right; }
+  .msg-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    word-wrap: break-word;
+  }
+  .msg-bubble.msg-highlight .msg-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Nicknames slide */
+  .nick-section { text-align: center; }
+  .nick-label {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .nick-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .nick-item {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nick-word {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--text-primary);
+  }
+  .nick-count {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .nick-empty {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+
+  /* Extremes — chars typed cards */
+  .chars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .chars-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .chars-num {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .chars-lbl { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -411,6 +537,10 @@
     <div class="progress-bar" data-i="3"><span class="fill"></span></div>
     <div class="progress-bar" data-i="4"><span class="fill"></span></div>
     <div class="progress-bar" data-i="5"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="6"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="7"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="8"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="9"><span class="fill"></span></div>
   </div>
 
   <div class="tap-zone left"></div>
@@ -437,10 +567,10 @@
       <div class="eyebrow">by the numbers</div>
       <h2 class="h">Thirteen and a half years of texts.</h2>
       <div class="stat-grid">
-        <div class="stat"><div class="stat-num">120,966</div><div class="stat-lbl">total messages</div></div>
-        <div class="stat"><div class="stat-num">2,754</div><div class="stat-lbl">days texted</div><div class="stat-meta">1 in every 2 days</div></div>
+        <div class="stat"><div class="stat-num">120,980</div><div class="stat-lbl">total messages</div></div>
+        <div class="stat"><div class="stat-num">2,755</div><div class="stat-lbl">days texted</div><div class="stat-meta">1 in every 2 days</div></div>
         <div class="stat"><div class="stat-num">13.5</div><div class="stat-lbl">years of texts</div></div>
-        <div class="stat"><div class="stat-num">3,671</div><div class="stat-lbl">photos shared</div></div>
+        <div class="stat"><div class="stat-num">3,672</div><div class="stat-lbl">photos shared</div></div>
         <div class="stat"><div class="stat-num">10,291</div><div class="stat-lbl">emojis sent</div></div>
         <div class="stat"><div class="stat-num">706</div><div class="stat-lbl">"love yous"</div></div>
       </div>
@@ -461,6 +591,58 @@
     <div class="slide" data-i="2">
       <div class="pg">iii</div>
       <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">how it started</div>
+      <h2 class="h">Where it all began.</h2>
+      <div class="msg-meta">mon, oct 22 2012</div>
+      <div class="msg-thread">
+        <div class="msg-bubble msg-from-other">
+          <div class="msg-sender">Deanna · 7:48pm</div>
+          <div class="msg-text">Are you good with iPhones cuz I need help </div>
+        </div>
+        <div class="msg-bubble msg-from-me">
+          <div class="msg-sender">Mike · 7:49pm</div>
+          <div class="msg-text">Yea lol</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="3">
+      <div class="pg">iv</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">the moment</div>
+      <h2 class="h">The first "I love you."</h2>
+      <div class="msg-meta">fri, mar 15 2013</div>
+      <div class="msg-thread">
+        <div class="msg-bubble msg-highlight msg-from-other">
+          <div class="msg-sender">Deanna · 4:16pm</div>
+          <div class="msg-text">i love you :)</div>
+        </div>
+        <div class="msg-bubble msg-from-other">
+          <div class="msg-sender">Deanna · 4:16pm</div>
+          <div class="msg-text">Down sides of having texts on my computer.....other ppl can text u </div>
+        </div>
+        <div class="msg-bubble msg-from-me">
+          <div class="msg-sender">Mike · 4:16pm</div>
+          <div class="msg-text">Be there in like 10-15</div>
+        </div>
+        <div class="msg-bubble msg-from-me">
+          <div class="msg-sender">Mike · 4:18pm</div>
+          <div class="msg-text">Ohh lmaoo </div>
+        </div>
+        <div class="msg-bubble msg-from-me">
+          <div class="msg-sender">Mike · 4:18pm</div>
+          <div class="msg-text">What do you mean? </div>
+        </div>
+        <div class="msg-bubble msg-from-other">
+          <div class="msg-sender">Deanna · 4:18pm</div>
+          <div class="msg-text">Lmaoooo Nicole was on my computer and said I love u </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="4">
+      <div class="pg">v</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
       <div class="eyebrow">over the years</div>
       <h2 class="h">2022 was our chattiest year.</h2>
       <div class="chart-wrap">
@@ -468,8 +650,8 @@
       </div>
     </div>
 
-    <div class="slide" data-i="3">
-      <div class="pg">iv</div>
+    <div class="slide" data-i="5">
+      <div class="pg">vi</div>
       <svg class="squiggle"><use href="#sq"/></svg>
       <div class="eyebrow">when we text</div>
       <h2 class="h">Wednesdays. 9pm. Always.</h2>
@@ -487,8 +669,8 @@
       </div>
     </div>
 
-    <div class="slide" data-i="4">
-      <div class="pg">v</div>
+    <div class="slide" data-i="6">
+      <div class="pg">vii</div>
       <svg class="squiggle"><use href="#sq"/></svg>
       <div class="eyebrow">our habits</div>
       <h2 class="h">97 days in a row.</h2>
@@ -501,20 +683,44 @@
       <div class="who-first-lbl">and when the day begins…</div>
       <div class="split">
         <div class="split-card">
-          <div class="split-pct">37%</div>
+          <div class="split-pct">36%</div>
           <div class="split-nm">Mike says good morning</div>
-          <div class="split-bar"><div class="split-bar-fill" style="width: 37%;"></div></div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 36%;"></div></div>
         </div>
         <div class="split-card">
-          <div class="split-pct">63%</div>
+          <div class="split-pct">64%</div>
           <div class="split-nm">Deanna says good morning</div>
-          <div class="split-bar"><div class="split-bar-fill" style="width: 63%;"></div></div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 64%;"></div></div>
         </div>
       </div>
     </div>
 
-    <div class="slide" data-i="5">
-      <div class="pg">vi</div>
+    <div class="slide" data-i="7">
+      <div class="pg">viii</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">our extremes</div>
+      <h2 class="h">379 messages in a single day.</h2>
+      <div class="streak-hero">
+        <div class="streak-num">379</div>
+        <div class="streak-lbl">our biggest texting day</div>
+        <div class="streak-meta">nov 28, 2021</div>
+      </div>
+      <svg class="divider"><use href="#sq"/></svg>
+      <div class="who-first-lbl">and the letters we typed…</div>
+      <div class="chars-grid">
+        <div class="chars-card">
+          <div class="chars-num">1,264,458</div>
+          <div class="chars-lbl">from Mike</div>
+        </div>
+        <div class="chars-card">
+          <div class="chars-num">2,074,378</div>
+          <div class="chars-lbl">from Deanna</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="8">
+      <div class="pg">ix</div>
       <svg class="squiggle"><use href="#sq"/></svg>
       <div class="eyebrow">our vocabulary</div>
       <h2 class="h">The words and emojis that made us.</h2>
@@ -529,6 +735,22 @@
         <div class="emoji-tile"><div class="emoji-glyph">❤️</div><div class="emoji-count">820</div></div>
         <div class="emoji-tile"><div class="emoji-glyph">😭</div><div class="emoji-count">595</div></div>
         <div class="emoji-tile"><div class="emoji-glyph">😂</div><div class="emoji-count">419</div></div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="9">
+      <div class="pg">x</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">what we call each other</div>
+      <h2 class="h">The names that stuck.</h2>
+      <div class="nick-section">
+        <div class="nick-label">Mike calls Deanna…</div>
+        <div class="nick-list"><div class="nick-item"><span class="nick-word">babe</span><span class="nick-count">412</span></div><div class="nick-item"><span class="nick-word">baby</span><span class="nick-count">70</span></div></div>
+      </div>
+      <svg class="divider"><use href="#sq"/></svg>
+      <div class="nick-section">
+        <div class="nick-label">Deanna calls Mike…</div>
+        <div class="nick-list"><div class="nick-item"><span class="nick-word">baby</span><span class="nick-count">341</span></div><div class="nick-item"><span class="nick-word">babe</span><span class="nick-count">179</span></div></div>
       </div>
     </div>
 
@@ -586,8 +808,8 @@
   const grid = 'rgba(0,0,0,0.06)';
 
   const yearLabels = ["'12", "'13", "'14", "'15", "'16", "'17", "'18", "'19", "'20", "'21", "'22", "'23", "'24", "'25", "'26"];
-  const yearData = [52, 7891, 3053, 3265, 1563, 346, 55, 151, 21736, 19959, 22364, 14236, 11292, 11335, 3668];
-  const heatNorm = [[0.057, 0.009, 0.009, 0.0, 0.002, 0.01, 0.039, 0.166, 0.32, 0.384, 0.349, 0.396, 0.364, 0.303, 0.346, 0.387, 0.432, 0.39, 0.503, 0.482, 0.579, 0.941, 0.647, 0.165], [0.02, 0.003, 0.003, 0.0, 0.001, 0.01, 0.076, 0.25, 0.397, 0.438, 0.42, 0.401, 0.402, 0.334, 0.387, 0.426, 0.413, 0.421, 0.409, 0.599, 0.686, 0.828, 0.517, 0.29], [0.095, 0.013, 0.002, 0.003, 0.001, 0.015, 0.08, 0.274, 0.437, 0.437, 0.473, 0.418, 0.456, 0.361, 0.506, 0.461, 0.416, 0.52, 0.518, 0.558, 0.732, 1.0, 0.719, 0.224], [0.033, 0.013, 0.005, 0.008, 0.003, 0.01, 0.09, 0.26, 0.411, 0.451, 0.348, 0.398, 0.345, 0.368, 0.439, 0.426, 0.394, 0.565, 0.61, 0.524, 0.56, 0.982, 0.545, 0.31], [0.128, 0.016, 0.007, 0.003, 0.006, 0.026, 0.099, 0.314, 0.424, 0.498, 0.37, 0.351, 0.368, 0.47, 0.36, 0.321, 0.504, 0.535, 0.577, 0.53, 0.577, 0.506, 0.462, 0.371], [0.112, 0.087, 0.029, 0.01, 0.022, 0.03, 0.048, 0.161, 0.191, 0.297, 0.359, 0.41, 0.358, 0.449, 0.314, 0.306, 0.343, 0.435, 0.368, 0.35, 0.294, 0.28, 0.319, 0.206], [0.081, 0.057, 0.043, 0.015, 0.022, 0.014, 0.038, 0.087, 0.209, 0.249, 0.37, 0.28, 0.334, 0.418, 0.383, 0.413, 0.327, 0.507, 0.416, 0.612, 0.613, 0.9, 0.612, 0.164]];
+  const yearData = [52, 7891, 3053, 3265, 1563, 346, 55, 151, 21736, 19959, 22364, 14236, 11292, 11335, 3682];
+  const heatNorm = [[0.057, 0.009, 0.009, 0.0, 0.002, 0.01, 0.039, 0.166, 0.32, 0.384, 0.349, 0.396, 0.364, 0.303, 0.346, 0.387, 0.432, 0.39, 0.503, 0.482, 0.579, 0.941, 0.647, 0.165], [0.02, 0.003, 0.003, 0.0, 0.001, 0.01, 0.076, 0.25, 0.397, 0.438, 0.42, 0.401, 0.402, 0.334, 0.387, 0.426, 0.413, 0.421, 0.409, 0.599, 0.686, 0.828, 0.517, 0.29], [0.095, 0.013, 0.002, 0.003, 0.001, 0.015, 0.08, 0.274, 0.437, 0.438, 0.474, 0.422, 0.456, 0.361, 0.506, 0.461, 0.416, 0.52, 0.518, 0.558, 0.732, 1.0, 0.719, 0.224], [0.033, 0.013, 0.005, 0.008, 0.003, 0.01, 0.09, 0.26, 0.411, 0.451, 0.348, 0.398, 0.345, 0.368, 0.439, 0.426, 0.394, 0.565, 0.61, 0.524, 0.56, 0.982, 0.545, 0.31], [0.128, 0.016, 0.007, 0.003, 0.006, 0.026, 0.099, 0.314, 0.424, 0.498, 0.37, 0.351, 0.368, 0.47, 0.36, 0.321, 0.504, 0.535, 0.577, 0.53, 0.577, 0.506, 0.462, 0.371], [0.112, 0.087, 0.029, 0.01, 0.022, 0.03, 0.048, 0.161, 0.191, 0.297, 0.359, 0.41, 0.358, 0.449, 0.314, 0.306, 0.343, 0.435, 0.368, 0.35, 0.294, 0.28, 0.319, 0.206], [0.081, 0.057, 0.043, 0.015, 0.022, 0.014, 0.038, 0.087, 0.209, 0.249, 0.37, 0.28, 0.334, 0.418, 0.383, 0.413, 0.327, 0.507, 0.416, 0.612, 0.613, 0.9, 0.612, 0.164]];
 
   new Chart(document.getElementById('yearChart'), {
     type: 'bar',
