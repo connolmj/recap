@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1f2d12">
+<meta name="robots" content="noindex, nofollow">
+<title>Mike & Deanna — Our story in messages</title>
+<style>
+  :root {
+    --accent: #3B6D11;
+    --accent-soft: #6B9A3F;
+    --heat-rgb: 59, 109, 17;
+    --bg-frame: #1f2d12;
+    --bg-slide: #f0ebd9;
+    --bg-cover: #e3dec5;
+    --bg-card: #e6dfc7;
+    --bg-card-soft: #ecead6;
+    --bg-tertiary: #d8d2b8;
+    --text-primary: #1f1d18;
+    --text-secondary: #5e5b4b;
+    --text-tertiary: #8e8a76;
+    --border-soft: rgba(59, 109, 17, 0.22);
+    --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  body {
+    background: var(--bg-frame);
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .story {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: 460px;
+    max-height: 920px;
+    background: var(--bg-slide);
+    overflow: hidden;
+  }
+  @media (min-width: 600px) {
+    .story {
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      margin: 24px;
+    }
+  }
+
+  .progress-bars {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    gap: 4px;
+    z-index: 30;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 2.5px;
+    background: rgba(31, 29, 24, 0.16);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .progress-bar .fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.28s ease;
+    border-radius: 2px;
+  }
+
+  .tap-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    z-index: 20;
+    cursor: pointer;
+  }
+  .tap-zone.left { left: 0; }
+  .tap-zone.right { right: 0; }
+
+  .slides {
+    position: absolute;
+    inset: 0;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 56px 30px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .slide.cover {
+    background: var(--bg-cover);
+    text-align: center;
+  }
+
+  .squiggle {
+    display: block;
+    width: 64px;
+    height: 8px;
+    margin: 0 auto 18px;
+    color: var(--accent);
+  }
+  .pg {
+    position: absolute;
+    top: 32px;
+    right: 22px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.14em;
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+  .eyebrow {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .h {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 28px;
+    line-height: 1.25;
+    color: var(--text-primary);
+    text-align: center;
+  }
+
+  .heart {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 14px;
+    display: block;
+    fill: var(--accent);
+  }
+  .cover-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.05;
+    margin: 8px 0 18px;
+    color: var(--text-primary);
+  }
+  .cover-sub {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin: 0 0 22px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin: 6px 0 0;
+    letter-spacing: 0.18em;
+  }
+  .tap-hint {
+    margin-top: 32px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    font-family: var(--font-serif);
+    letter-spacing: 0.08em;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 14px 14px 14px;
+  }
+  .stat-num {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .stat-meta {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 10.5px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .split { display: flex; gap: 10px; }
+  .split-card {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .split-pct {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 4px;
+    color: var(--accent);
+  }
+  .split-nm { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; }
+  .split-bar {
+    height: 5px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .split-bar-fill { height: 100%; background: var(--accent); }
+
+  .chart-wrap { position: relative; width: 100%; height: 260px; margin-top: 4px; }
+
+  .heatmap {
+    display: grid;
+    grid-template-columns: 30px repeat(24, minmax(0, 1fr));
+    gap: 2px;
+    margin-top: 6px;
+  }
+  .col-lbl {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-align: left;
+    padding: 4px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .row-lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    padding-right: 6px;
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .cell {
+    aspect-ratio: 1;
+    border-radius: 1.5px;
+    background-color: rgba(var(--heat-rgb), var(--int, 0.05));
+  }
+  .heat-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .heat-scale { display: flex; gap: 2px; }
+  .heat-scale span { width: 14px; height: 10px; border-radius: 2px; }
+
+  .streak-hero { text-align: center; padding: 8px 0 18px; }
+  .streak-num {
+    font-family: var(--font-serif);
+    font-size: 76px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .streak-lbl { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+  .streak-meta {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    font-family: var(--font-serif);
+    letter-spacing: 0.06em;
+  }
+  .divider {
+    display: block;
+    width: 48px;
+    height: 6px;
+    margin: 18px auto;
+    color: rgba(var(--heat-rgb), 0.5);
+  }
+  .who-first-lbl {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .vocab-hero {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 28px 18px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .vocab-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .vocab-lbl { font-size: 13px; color: var(--text-secondary); }
+  .section-lbl {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    text-align: center;
+    letter-spacing: 0.06em;
+  }
+  .emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .emoji-tile {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 12px 4px;
+    text-align: center;
+  }
+  .emoji-glyph {
+    font-size: 22px;
+    line-height: 1;
+    margin-bottom: 4px;
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  }
+  .emoji-count {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <symbol id="sq" viewBox="0 0 80 8">
+      <path d="M0,4 Q5,1 10,4 T20,4 T30,4 T40,4 T50,4 T60,4 T70,4 T80,4"
+            stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="story">
+
+  <div class="progress-bars">
+    <div class="progress-bar" data-i="0"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="1"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="2"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="3"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="4"><span class="fill"></span></div>
+    <div class="progress-bar" data-i="5"><span class="fill"></span></div>
+  </div>
+
+  <div class="tap-zone left"></div>
+  <div class="tap-zone right"></div>
+
+  <div class="slides">
+
+    <div class="slide cover" data-i="0">
+      <div class="pg">i</div>
+      <svg class="heart" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <svg class="squiggle" style="width: 84px;"><use href="#sq"/></svg>
+      <h1 class="cover-title">Mike &amp; Deanna</h1>
+      <p class="cover-sub">our story in messages</p>
+      <svg class="squiggle" style="width: 84px;"><use href="#sq"/></svg>
+      <p class="meta">2012 — 2026</p>
+      <p class="tap-hint">tap right to begin →</p>
+    </div>
+
+    <div class="slide" data-i="1">
+      <div class="pg">ii</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">by the numbers</div>
+      <h2 class="h">Thirteen and a half years of texts.</h2>
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-num">120,966</div><div class="stat-lbl">total messages</div></div>
+        <div class="stat"><div class="stat-num">2,754</div><div class="stat-lbl">days texted</div><div class="stat-meta">1 in every 2 days</div></div>
+        <div class="stat"><div class="stat-num">13.5</div><div class="stat-lbl">years of texts</div></div>
+        <div class="stat"><div class="stat-num">3,671</div><div class="stat-lbl">photos shared</div></div>
+        <div class="stat"><div class="stat-num">10,291</div><div class="stat-lbl">emojis sent</div></div>
+        <div class="stat"><div class="stat-num">706</div><div class="stat-lbl">"love yous"</div></div>
+      </div>
+      <div class="split">
+        <div class="split-card">
+          <div class="split-pct">41%</div>
+          <div class="split-nm">Mike</div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 41%;"></div></div>
+        </div>
+        <div class="split-card">
+          <div class="split-pct">59%</div>
+          <div class="split-nm">Deanna</div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 59%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="2">
+      <div class="pg">iii</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">over the years</div>
+      <h2 class="h">2022 was our chattiest year.</h2>
+      <div class="chart-wrap">
+        <canvas id="yearChart" role="img" aria-label="Bar chart of messages per year"></canvas>
+      </div>
+    </div>
+
+    <div class="slide" data-i="3">
+      <div class="pg">iv</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">when we text</div>
+      <h2 class="h">Wednesdays. 9pm. Always.</h2>
+      <div id="heatmap" class="heatmap"></div>
+      <div class="heat-legend">
+        <span>quiet</span>
+        <div class="heat-scale">
+          <span style="background: rgba(var(--heat-rgb), 0.08);"></span>
+          <span style="background: rgba(var(--heat-rgb), 0.25);"></span>
+          <span style="background: rgba(var(--heat-rgb), 0.5);"></span>
+          <span style="background: rgba(var(--heat-rgb), 0.75);"></span>
+          <span style="background: rgba(var(--heat-rgb), 1);"></span>
+        </div>
+        <span>buzzing</span>
+      </div>
+    </div>
+
+    <div class="slide" data-i="4">
+      <div class="pg">v</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">our habits</div>
+      <h2 class="h">97 days in a row.</h2>
+      <div class="streak-hero">
+        <div class="streak-num">97</div>
+        <div class="streak-lbl">consecutive days texting</div>
+        <div class="streak-meta">Aug 2020 — Nov 2020</div>
+      </div>
+      <svg class="divider"><use href="#sq"/></svg>
+      <div class="who-first-lbl">and when the day begins…</div>
+      <div class="split">
+        <div class="split-card">
+          <div class="split-pct">37%</div>
+          <div class="split-nm">Mike says good morning</div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 37%;"></div></div>
+        </div>
+        <div class="split-card">
+          <div class="split-pct">63%</div>
+          <div class="split-nm">Deanna says good morning</div>
+          <div class="split-bar"><div class="split-bar-fill" style="width: 63%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" data-i="5">
+      <div class="pg">vi</div>
+      <svg class="squiggle"><use href="#sq"/></svg>
+      <div class="eyebrow">our vocabulary</div>
+      <h2 class="h">The words and emojis that made us.</h2>
+      <div class="vocab-hero">
+        <div class="vocab-num">706</div>
+        <div class="vocab-lbl">times we said "love you"</div>
+      </div>
+      <div class="section-lbl">top emojis</div>
+      <div class="emoji-grid">
+        <div class="emoji-tile"><div class="emoji-glyph">🤣</div><div class="emoji-count">1,207</div></div>
+        <div class="emoji-tile"><div class="emoji-glyph">💛</div><div class="emoji-count">1,192</div></div>
+        <div class="emoji-tile"><div class="emoji-glyph">❤️</div><div class="emoji-count">820</div></div>
+        <div class="emoji-tile"><div class="emoji-glyph">😭</div><div class="emoji-count">595</div></div>
+        <div class="emoji-tile"><div class="emoji-glyph">😂</div><div class="emoji-count">419</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const bars = document.querySelectorAll('.progress-bar');
+  const fills = document.querySelectorAll('.progress-bar .fill');
+  const TOTAL = slides.length;
+  let cur = 0;
+
+  function show(i) {
+    i = Math.max(0, Math.min(TOTAL - 1, i));
+    slides.forEach(function(s, j) { s.classList.toggle('active', j === i); });
+    fills.forEach(function(f, j) { f.style.width = (j <= i) ? '100%' : '0%'; });
+    cur = i;
+  }
+
+  document.querySelector('.tap-zone.left').addEventListener('click', function(e) {
+    e.stopPropagation(); show(cur - 1);
+  });
+  document.querySelector('.tap-zone.right').addEventListener('click', function(e) {
+    e.stopPropagation(); show(cur + 1);
+  });
+  bars.forEach(function(b, i) {
+    b.addEventListener('click', function(e) { e.stopPropagation(); show(i); });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight' || e.key === ' ') show(cur + 1);
+  });
+
+  let touchX = null, touchY = null;
+  document.addEventListener('touchstart', function(e) {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    const dy = e.changedTouches[0].clientY - touchY;
+    touchX = null;
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx > 0) show(cur - 1); else show(cur + 1);
+  }, { passive: true });
+
+  show(0);
+
+  const accent = '#3B6D11';
+  const axis = '#5e5b4b';
+  const grid = 'rgba(0,0,0,0.06)';
+
+  const yearLabels = ["'12", "'13", "'14", "'15", "'16", "'17", "'18", "'19", "'20", "'21", "'22", "'23", "'24", "'25", "'26"];
+  const yearData = [52, 7891, 3053, 3265, 1563, 346, 55, 151, 21736, 19959, 22364, 14236, 11292, 11335, 3668];
+  const heatNorm = [[0.057, 0.009, 0.009, 0.0, 0.002, 0.01, 0.039, 0.166, 0.32, 0.384, 0.349, 0.396, 0.364, 0.303, 0.346, 0.387, 0.432, 0.39, 0.503, 0.482, 0.579, 0.941, 0.647, 0.165], [0.02, 0.003, 0.003, 0.0, 0.001, 0.01, 0.076, 0.25, 0.397, 0.438, 0.42, 0.401, 0.402, 0.334, 0.387, 0.426, 0.413, 0.421, 0.409, 0.599, 0.686, 0.828, 0.517, 0.29], [0.095, 0.013, 0.002, 0.003, 0.001, 0.015, 0.08, 0.274, 0.437, 0.437, 0.473, 0.418, 0.456, 0.361, 0.506, 0.461, 0.416, 0.52, 0.518, 0.558, 0.732, 1.0, 0.719, 0.224], [0.033, 0.013, 0.005, 0.008, 0.003, 0.01, 0.09, 0.26, 0.411, 0.451, 0.348, 0.398, 0.345, 0.368, 0.439, 0.426, 0.394, 0.565, 0.61, 0.524, 0.56, 0.982, 0.545, 0.31], [0.128, 0.016, 0.007, 0.003, 0.006, 0.026, 0.099, 0.314, 0.424, 0.498, 0.37, 0.351, 0.368, 0.47, 0.36, 0.321, 0.504, 0.535, 0.577, 0.53, 0.577, 0.506, 0.462, 0.371], [0.112, 0.087, 0.029, 0.01, 0.022, 0.03, 0.048, 0.161, 0.191, 0.297, 0.359, 0.41, 0.358, 0.449, 0.314, 0.306, 0.343, 0.435, 0.368, 0.35, 0.294, 0.28, 0.319, 0.206], [0.081, 0.057, 0.043, 0.015, 0.022, 0.014, 0.038, 0.087, 0.209, 0.249, 0.37, 0.28, 0.334, 0.418, 0.383, 0.413, 0.327, 0.507, 0.416, 0.612, 0.613, 0.9, 0.612, 0.164]];
+
+  new Chart(document.getElementById('yearChart'), {
+    type: 'bar',
+    data: {
+      labels: yearLabels,
+      datasets: [{
+        data: yearData,
+        backgroundColor: accent,
+        borderRadius: 3,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(c) { return c.parsed.y.toLocaleString() + ' messages'; } } }
+      },
+      scales: {
+        y: {
+          ticks: { color: axis, callback: function(v) { return v >= 1000 ? Math.round(v/1000) + 'k' : v; }, font: { size: 11 } },
+          grid: { color: grid },
+          beginAtZero: true
+        },
+        x: {
+          ticks: { color: axis, autoSkip: false, font: { size: 11 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const root = document.getElementById('heatmap');
+  let html = '<div></div>';
+  for (let h = 0; h < 24; h++) {
+    const lbl = (h === 0) ? '12a' : (h === 6) ? '6a' : (h === 12) ? '12p' : (h === 18) ? '6p' : '';
+    html += '<div class="col-lbl">' + lbl + '</div>';
+  }
+  days.forEach(function(d, di) {
+    html += '<div class="row-lbl">' + d + '</div>';
+    for (let h = 0; h < 24; h++) {
+      const f = Math.max(0.04, heatNorm[di][h]);
+      html += '<div class="cell" style="--int: ' + f.toFixed(3) + ';"></div>';
+    }
+  });
+  root.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>
